@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1606384038 source:d:\codeblocks\firstfit\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+
