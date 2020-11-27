@@ -44,50 +44,68 @@ void init()//空闲区队列初始化
     m_last->data.isUsed = 0;
 }
 
-int first_fit(int ID,int size)//首次适应算法
+int best_fit(int ID,int size)//最佳适应算法
 {
+    int surplus;//记录可用内存与需求内存的差值
     DuLinkList temp = (DuLinkList)malloc(sizeof(DuNode));
     DuNode *p = m_rid->next;
+    DuNode *q = NULL;//记录最佳位置
 
-    temp->data.ID=ID;
-    temp->data.size=size;
-    temp->data.isUsed=BUSY;
+    temp->data.ID = ID;
+    temp->data.size = size;
+    temp->data.isUsed = BUSY;
 
-    while(p)
+    while(p)//遍历链表，找到第一个可用的空闲区间赋给q
     {
-        if(p->data.ID == ID)//不允许存在同名作业
+        if (p->data.isUsed==FREE && p->data.size >= size)
         {
-            printf("该作业号对应的作业已经在内存中！");
-
-            return 0;
-        }
-
-        if (p->data.isUsed==FREE && p->data.size==size)//请求大小刚好满足
-        {
-            p->data.isUsed=BUSY;
-            p->data.ID=ID;
-
-            return 1;
-        }
-
-        if (p->data.isUsed==FREE && p->data.size>size)//空闲区比所需内存大，则需要将多的内存作回收处理
-        {
-            temp->next=p;
-            temp->prior=p->prior;
-            temp->data.address=p->data.address;
-
-            p->prior->next=temp;
-            p->prior=temp;
-            p->data.address=temp->data.address+temp->data.size;
-            p->data.size-=size;
-
-            return 1;
+            q = p;
+            surplus = p->data.size - size;
+            break;
         }
 
         p=p->next;
     }
 
-    return 0;
+    while(p)//继续遍历，找到合适的位置
+    {
+        if (p->data.isUsed == FREE && p->data.size == size) //分区大小刚好是作业申请的大小
+        {
+            p->data.isUsed = BUSY;
+            p->data.ID = ID;
+
+            return 1;
+        }
+
+        if (p->data.isUsed == FREE && p->data.size > size) //可用内存与需求内存的差值更小
+        {
+            if (surplus > p->data.size - size)
+            {
+                surplus = p->data.size-size;
+                q = p;
+            }
+        }
+
+        p=p->next;
+    }
+
+    if (q == NULL)//没有找到位置
+        return 0;
+    else//找到最佳位置
+    {
+        //将temp插入到结点q之前
+        temp->next = q;
+        temp->prior = q->prior;
+        temp->data.address = q->data.address;
+
+        q->prior->next = temp;
+        q->prior = temp;
+
+        q->data.size = surplus;
+        q->data.address += size;
+
+        return 1;
+    }
 }
 
 void alloc()//分配内存
@@ -102,7 +120,7 @@ void alloc()//分配内存
     if (ID<=0 || size1<=0)
         printf("错误！请输入正确的作业号和请求的内存大小");
 
-    if(first_fit(ID,size1))
+    if(best_fit(ID,size1))
         printf("分配内存成功！\n");
     else
         printf("分配内存失败！\n");
@@ -200,7 +218,7 @@ void show()
 int main()
 {
     printf("------------------");
-    printf("首次适应算法");
+    printf("最佳适应算法");
     printf("------------------\n");
 
     init();
