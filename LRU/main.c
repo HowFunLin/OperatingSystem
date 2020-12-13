@@ -108,7 +108,7 @@ int LRU(int pageNum, int virAddr)
             printf("指令地址：%d \n", virAddr);
             printf("指令已在内存中！\n用户指令第%d页第%d条的物理地址为：第%d块第%d条 \n\n", pageNum, (virAddr % 10), p->data.blockNum, (virAddr % 10));
 
-           for(int i = 0; i < 4; i++)
+            for(int i = 0; i < 4; i++)
             {
                 p->data.t++;
                 p = p->next;
@@ -123,7 +123,7 @@ int LRU(int pageNum, int virAddr)
     }
 
     //页面置换
-    int largestT = 0;
+    int largestT = -1;
 
     for(int i = 0; i < 4; i++) //
     {
@@ -139,11 +139,20 @@ int LRU(int pageNum, int virAddr)
     {
         if(p->data.t == largestT)
         {
+            for(int j = 0; j < 4; j++)
+            {
+                p->data.t++;
+                p = p->next;
+            }
+
             p->data.pageNum = pageNum;
             count++;
+            p->data.t = 0;
 
             printf("指令地址：%d \n", virAddr);
             printf("指令未装入内存且内存块已满！页面置换完成！\n用户指令第%d页第%d条的物理地址为：第%d块第%d条 \n\n", pageNum, (virAddr % 10), p->data.blockNum, (virAddr % 10));
+
+            return 1;
         }
 
         p = p->next;
