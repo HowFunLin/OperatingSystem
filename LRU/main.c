@@ -169,6 +169,7 @@ void calculate() //计算缺页率
     }
 
     printf("\n");
+    printf("缺页次数：%.0f\n", count);
     printf("计算得到的缺页率为：%.4f \n", count / 320);
 }
 

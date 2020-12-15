@@ -83,6 +83,7 @@ int Optimal(int pageNum, int virAddr, int pos) //最佳置换算法
         {
             p->data.pageNum = pageNum;
             count++; //缺页次数+1
+            printf("调入的第%d条", pos);
             printf("指令地址：%d \n", virAddr);
             printf("指令未装入内存！页面置换完成！\n用户指令第%d页第%d条的物理地址为：第%d块第%d条 \n\n", pageNum, (virAddr % 10), p->data.blockNum, (virAddr % 10));
 
@@ -91,6 +92,7 @@ int Optimal(int pageNum, int virAddr, int pos) //最佳置换算法
 
         if(p->data.pageNum == pageNum)
         {
+            printf("调入的第%d条", pos);
             printf("指令地址：%d \n", virAddr);
             printf("指令已在内存中！\n用户指令第%d页第%d条的物理地址为：第%d块第%d条 \n\n", pageNum, (virAddr % 10), p->data.blockNum, (virAddr % 10));
 
@@ -142,6 +144,7 @@ int Optimal(int pageNum, int virAddr, int pos) //最佳置换算法
             p->data.pageNum = pageNum;
             count++;
 
+            printf("调入的第%d条", pos);
             printf("指令地址：%d \n", virAddr);
             printf("指令未装入内存且内存块已满！页面置换完成！\n用户指令第%d页第%d条的物理地址为：第%d块第%d条 \n\n", pageNum, (virAddr % 10), p->data.blockNum, (virAddr % 10));
         }
@@ -160,6 +163,7 @@ void calculate() //计算缺页率
     }
 
     printf("\n");
+    printf("缺页次数：%.0f\n", count);
     printf("计算得到的缺页率为：%.4f \n", count / 320);
 }
 

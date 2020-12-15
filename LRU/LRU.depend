@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1606734493 source:d:\codeblocks\fifo\main.c
+1607854721 source:d:\codeblocks\lru\main.c
 	<stdio.h>
 	<stdlib.h>
 
