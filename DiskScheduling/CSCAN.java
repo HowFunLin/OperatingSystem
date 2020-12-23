@@ -107,6 +107,11 @@ public class CSCAN
 
 		System.out.println("平均寻道长度：" + sum / num);
 	}
+	
+	CSCAN()
+	{
+		System.out.println("--------循环扫描算法--------");
+	}
 
 	public static void main(String[] args)
 	{

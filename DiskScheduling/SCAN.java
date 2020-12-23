@@ -108,6 +108,11 @@ public class SCAN
 
 		System.out.println("平均寻道长度：" + sum / num);
 	}
+	
+	SCAN()
+	{
+		System.out.println("----------扫描算法----------");
+	}
 
 	public static void main(String[] args)
 	{

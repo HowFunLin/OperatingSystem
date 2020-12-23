@@ -77,6 +77,11 @@ public class SSTF
 		System.out.println("平均寻道长度：" + sum / num);
 	}
 	
+	SSTF()
+	{
+		System.out.println("-------最短寻道时间优先-------");
+	}
+	
 	public static void main(String[] args)
 	{
 		SSTF sstf = new SSTF();

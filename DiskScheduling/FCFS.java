@@ -57,6 +57,11 @@ public class FCFS
 		System.out.println("平均寻道长度：" + sum / num);
 	}
 	
+	FCFS()
+	{
+		System.out.println("----------先来先服务----------");
+	}
+	
 	public static void main(String[] args)
 	{
 		FCFS fcfs = new FCFS();
